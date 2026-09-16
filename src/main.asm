@@ -108,7 +108,7 @@ nmi:
     tsx
     stx p_0         ;main stack ptr
     
-    ldx #$00        ;stack = $0100 definitely don't move gfxbuffer or this is invalid
+    ldx #<gfxbuffer
     txs
     
     -
