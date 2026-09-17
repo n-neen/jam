@@ -288,26 +288,6 @@ setup:
     sta bgxscroll
     sta bgyscroll
     
-    jsr tilemap_obj_clearall
-    
-    ;spawn test objects
-    ldx #$10            ;obj index
-    ldy #$13            ;obj y
-    lda playerx
-    lsr
-    lsr
-    lsr
-    jsr spawntestobj
-    
-    ldx #$0f            ;obj index
-    ldy #$13            ;obj y
-    lda #$08            ;obj x
-    jsr spawntestobj
-    
-    
-    
-    ;
-    
     lda #state_loadscene
     sta programstate        ;return with next state
     
@@ -316,6 +296,41 @@ setup:
 
 setupgame:
     ;do stuff
+    
+    jsr tilemap_obj_clearall            ;clear tilemap objects
+    
+    ;spawn test objects
+    ldx #$10            ;obj index
+    ldy #$13            ;obj y
+    lda #$00            ;obj x
+    jsr spawntestobj
+    
+    ldx #$0f            ;obj index
+    ldy #$13            ;obj y
+    lda #$08            ;obj x
+    jsr spawntestobj
+    
+    ldx #$0e            ;obj index
+    ldy #$13            ;obj y
+    lda #$10            ;obj x
+    jsr spawntestobj
+    
+    ldx #$0d            ;obj index
+    ldy #$13            ;obj y
+    lda #$18            ;obj x
+    jsr spawntestobj
+    
+    jsr playerdraw
+    
+    jsr tilemap_obj_handle          ;handle tilemap objects
+    
+    jsr fae_clearall
+    jsr fae_spawn_test              ;spawn fae
+    
+    jsr fae_handleall
+    
+    ldx #fae_count
+    jsr fae_draw                    ;draw fae (first slot test)
     
     lda #state_gameplay
     sta programstate        ;return with next state
@@ -497,18 +512,17 @@ setupgfxbuffer:
     sty gfxbuffer_target+1
     sta gfxbuffer_size
     
-    tax                     ;used as counter for inroutine loop
-    --
-    ldy #$00
+    asl
+    asl
+    asl
+    asl
+    tay
     
     -
     lda (p_0),y
     sta gfxbuffer,y
-    iny
-    cpy #$10
-    bne -
-    dex
-    bne --
+    dey
+    bpl -
     
     rts
     

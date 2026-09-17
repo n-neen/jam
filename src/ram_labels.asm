@@ -92,3 +92,21 @@ enum $0300
     ppu_queue_addr_lo       dsb 1*tobj_count+1
     ppu_queue_byte          dsb 1*tobj_count+1
 ende
+
+enum $0400
+    fae_id_hi       dsb 1*fae_count
+    fae_id_lo       dsb 1*fae_count
+    
+    fae_x           dsb 1*fae_count
+    fae_xradius     dsb 1*fae_count
+    fae_y           dsb 1*fae_count
+    fae_yradius     dsb 1*fae_count
+    fae_drawptr_hi  dsb 1*fae_count
+    fae_drawptr_lo  dsb 1*fae_count
+    fae_routine_lo  dsb 1*fae_count
+    fae_routine_hi  dsb 1*fae_count
+    fae_init_hi     dsb 1*fae_count
+    fae_init_lo     dsb 1*fae_count
+    
+    fae_timer       dsb 1*fae_count
+ende

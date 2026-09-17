@@ -9,5 +9,6 @@ player_maxspeed equ 3
 player_maxspeed_negative equ -3
 
 tobj_count      equ 16
+fae_count       equ 16
 
 .endinl

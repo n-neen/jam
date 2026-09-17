@@ -7,6 +7,7 @@ org $8000
     include "./src/gameplay.asm"
     include "./src/player.asm"
     include "./src/tilemap_animations.asm"
+    include "./src/fae.asm"
     
 org $d000
     test_gfx:   incbin "./data/test.chr"        ;tiles
