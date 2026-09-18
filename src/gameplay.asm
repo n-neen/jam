@@ -1,6 +1,6 @@
 gameplay:
     lda controller
-    jsr playerinput
+    jsr player_input
     
     ;lda controller     ;this doesn't wok anymore cause of oamfillbuffer :[
     ;bit button_SL
@@ -15,9 +15,9 @@ gameplay:
     lda #$00
     sta ppu_queue_flag
     
-    jsr playermove
-    jsr playercollision
-    jsr playerdraw
+    jsr player_move
+    jsr player_collision
+    jsr player_draw
     
     
     ;=====================================test harness animated tile object

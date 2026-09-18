@@ -165,6 +165,9 @@ nmi:
     
     inc nmicounter
     
+    lda #$00
+    sta nmiflag
+    
     pla
     tay
     
@@ -224,6 +227,7 @@ clearram:
     
     lda #$00
     sta ppu_queue_flag
+    sta nmiflag
     
     -
     bit $2002               ;wait for vblank
@@ -241,9 +245,12 @@ clearram:
 main:
     ;you know, the program
     
+    lda #$01
+    sta nmiflag
+    ;bit $2002          ;uncomment to show cpu on event viewer
     -
-    bit $2002               ;wait for vblank
-    bpl -
+    lda nmiflag
+    bne -
     
     lda programstate
     asl
@@ -320,7 +327,7 @@ setupgame:
     lda #$18            ;obj x
     jsr spawntestobj
     
-    jsr playerdraw
+    jsr player_draw
     
     jsr tilemap_obj_handle          ;handle tilemap objects
     

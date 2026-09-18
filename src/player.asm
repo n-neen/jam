@@ -1,4 +1,4 @@
-playerdraw:
+player_draw:
     ldx oamindex
     
     lda nmicounter
@@ -41,7 +41,7 @@ playerdraw:
     rts
     
     
-playerinput:
+player_input:
     ;a = controller bits
     beq nobuttons
     
@@ -154,6 +154,7 @@ playerinput:
     
 playerrandomizemovement:
     ;pretty much nonsense
+    ;not used
     
     lda controller
     bit button_A
@@ -185,7 +186,7 @@ playerrandomizemovement:
     +
     rts
     
-playermove:
+player_move:
     ;..y
     lda playersuby
     clc
@@ -209,7 +210,7 @@ playermove:
     rts
     
     
-boundscheck:       
+player_bounds_check:       
     lda playerx             ;left bound
     cmp #$04
     bcc +
@@ -261,7 +262,7 @@ boundscheck:
 ;    rts
 
 
-playercollision:
+player_collision:
     ;((playery/16)*16 + (playerx/16)
     lda playery
     and #$f0

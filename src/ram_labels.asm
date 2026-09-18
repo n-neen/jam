@@ -27,12 +27,13 @@ enum $0010
     bgxscroll dsb 1         ;$10        ;mirror for $2005
     bgyscroll dsb 1         ;$11        ;mirror for $2005 (second write)
     
-    bgxsubscroll dsb 1      ;$12
+    bgxsubscroll dsb 1      ;$12        ;not currently used
     bgysubscroll dsb 1      ;$13
     
     rendersettings dsb 1    ;$14        ;mirror for $2001
-    
     ppuctrl dsb 1           ;$15        ;mirror for $2000
+    
+    nmiflag dsb 1           ;$16
 ende
 
 
