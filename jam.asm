@@ -8,6 +8,8 @@ org $8000
     include "./src/player.asm"
     include "./src/tilemap_animations.asm"
     include "./src/fae.asm"
+        include "./src/fae/mirrorgem.asm"
+        include "./src/fae/shot.asm"
     
 org $d000
     test_gfx:   incbin "./data/test.chr"        ;tiles

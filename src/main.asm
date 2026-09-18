@@ -304,27 +304,27 @@ setup:
 setupgame:
     ;do stuff
     
-    jsr tilemap_obj_clearall            ;clear tilemap objects
+    jsr tilemap_obj_clearall        ;clear tilemap objects
     
     ;spawn test objects
-    ldx #$10            ;obj index
-    ldy #$13            ;obj y
-    lda #$00            ;obj x
-    jsr spawntestobj
-    
-    ldx #$0f            ;obj index
-    ldy #$13            ;obj y
-    lda #$08            ;obj x
-    jsr spawntestobj
-    
-    ldx #$0e            ;obj index
-    ldy #$13            ;obj y
-    lda #$10            ;obj x
-    jsr spawntestobj
-    
-    ldx #$0d            ;obj index
-    ldy #$13            ;obj y
-    lda #$18            ;obj x
+    ldx #$10                        ;obj index
+    ldy #$13                        ;obj y
+    lda #$00                        ;obj x
+    jsr spawntestobj                
+                            
+    ldx #$0f                        ;obj index
+    ldy #$13                        ;obj y
+    lda #$08                        ;obj x
+    jsr spawntestobj                
+                            
+    ldx #$0e                        ;obj index
+    ldy #$13                        ;obj y
+    lda #$10                        ;obj x
+    jsr spawntestobj                
+                            
+    ldx #$0d                        ;obj index
+    ldy #$13                        ;obj y
+    lda #$18                        ;obj x
     jsr spawntestobj
     
     jsr player_draw
@@ -332,7 +332,10 @@ setupgame:
     jsr tilemap_obj_handle          ;handle tilemap objects
     
     jsr fae_clearall
-    jsr fae_spawn_test              ;spawn fae
+    
+    ldx #<mirror_gem                ;id lo
+    ldy #>mirror_gem                ;id hi
+    jsr fae_spawn_findslot
     
     jsr fae_handleall
     
@@ -340,7 +343,7 @@ setupgame:
     jsr fae_draw                    ;draw fae (first slot test)
     
     lda #state_gameplay
-    sta programstate        ;return with next state
+    sta programstate                ;return with next state
     
     rts
 

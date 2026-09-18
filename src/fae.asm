@@ -26,7 +26,7 @@ fae_clearall:
     -
     jsr fae_clear
     dex
-    bne -
+    bpl -
     
     rts
     
@@ -40,7 +40,7 @@ fae_handleall:
     jsr fae_handle
     +
     dex
-    bne -
+    bpl -
     
     rts
     
@@ -67,7 +67,7 @@ fae_drawall:
     jsr fae_draw
     +
     dex
-    bne -
+    bpl -
     
     rts
     
@@ -141,19 +141,32 @@ fae_draw:
     
     rts
     
-fae_spawn_test:
-    ;callsite:
-    ldx #<testfae       ;id lo
-    ldy #>testfae       ;id hi
-    lda #fae_count      ;fae index
-    
-    ;spawn routine:
-    
+fae_spawn_findslot:
     stx p_0
     sty p_1
     
+    ldx #fae_count
+    
+    -
+    lda fae_id_hi,x
+    beq fae_spawn_findslot_slotfound
+    dex
+    bpl -
+    
+    rts
+    
+    fae_spawn_findslot_slotfound:
+        jsr fae_spawn
+        rts
+    
+fae_spawn:
+    ;x   = fae index
+    ;p_0 = fae id lo
+    ;p_1 = fae id hi
+    
+    ;spawn routine:
+    
     ldy #$00
-    tax
     
     lda p_0
     sta fae_id_lo,x
@@ -199,59 +212,3 @@ fae_spawn_test:
     
     ;rts
     
-    
-testfae:
-    dw testfae_spritemap        ;spritemap pointer
-    dw testfae_routine          ;main routine pointer
-    dw testfae_init             ;init routine pointer
-    db $04                      ;x radius
-    db $04                      ;y radius
-    
-    
-testfae_init:
-    ;x = fae index
-    
-    lda #$7d
-    sta fae_x,x
-    
-    lda #$80
-    sta fae_y,x
-    
-    rts
-
-
-testfae_routine:
-    lda fae_timer,x
-    clc
-    adc #$01
-    sta fae_timer,x
-    
-    cmp #$08
-    bne +
-    
-    lda #$00
-    sta fae_timer,x
-    +
-    
-    
-    lda playerx
-    eor #$ff
-    clc
-    adc #$01
-    sta fae_x,x
-    
-    lda playery
-    eor #$ff
-    clc
-    adc #$01
-    sta fae_y,x
-    
-    rts
-    
-    
-testfae_spritemap:
-    testfae_spritemap_0:
-        ;number of sprites
-        db $01
-           ;xx,  tt, attributs,  yy
-        db $00, $06, %00000010, $00

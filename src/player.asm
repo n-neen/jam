@@ -141,9 +141,10 @@ player_input:
         ;if A pressed:
         pha
         
-        lda #$04
-        sta oamindex
-        jsr oamfillbuffer
+        ;fire shot
+        ldx #<shot                  ;id lo
+        ldy #>shot                  ;id hi
+        jsr fae_spawn_findslot
         
         pla
     +

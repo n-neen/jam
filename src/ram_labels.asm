@@ -16,7 +16,7 @@ enum $0009              ;9-f
     programstate            dsb 1   ;$9
     sceneindex              dsb 1   ;$a
     controller              dsb 1   ;$b
-    scrolldirection         dsb 1   ;$c
+    scrolldirection         dsb 1   ;$c  ;not used
     nmicounter              dsb 1   ;$d
     oamindex                dsb 1   ;$e
 ende
@@ -28,7 +28,7 @@ enum $0010
     bgyscroll dsb 1         ;$11        ;mirror for $2005 (second write)
     
     bgxsubscroll dsb 1      ;$12        ;not currently used
-    bgysubscroll dsb 1      ;$13
+    bgysubscroll dsb 1      ;$13        ;not currently used
     
     rendersettings dsb 1    ;$14        ;mirror for $2001
     ppuctrl dsb 1           ;$15        ;mirror for $2000
@@ -53,10 +53,16 @@ enum $0040
     
     playeranimframe         dsb 1   ;$48
     
-    playerdirection         dsb 1   ;$49
+    playerdirection         dsb 1   ;$49 ;not used
     
     playercollisiontype     dsb 1   ;$4a
     playercollisionindex    dsb 1   ;$4b
+    
+    shot_x_speed            dsb 1   ;$4c
+    shot_x_subspeed         dsb 1   ;$4d
+    shot_y_speed            dsb 1   ;$4d
+    shot_y_subspeed         dsb 1   ;$4f
+    shot_active             dsb 1   ;$50 ;boolean 0 or 1
     
 ende
 
