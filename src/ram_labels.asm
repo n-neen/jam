@@ -22,7 +22,7 @@ enum $0009              ;9-f
 ende
 
 enum $0010
-    ;ppu register mirrors
+    ;ppu register mirrors, other important stuff
     
     bgxscroll dsb 1         ;$10        ;mirror for $2005
     bgyscroll dsb 1         ;$11        ;mirror for $2005 (second write)
@@ -63,6 +63,12 @@ enum $0040
     shot_y_speed            dsb 1   ;$4d
     shot_y_subspeed         dsb 1   ;$4f
     shot_active             dsb 1   ;$50 ;boolean 0 or 1
+ende
+
+enum $0080
+    collision_map_ptr       dsb 2   ;$80-81
+    faelist_ptr             dsb 2   ;$82-83
+    tobjlist_ptr            dsb 2   ;$84-85
     
 ende
 

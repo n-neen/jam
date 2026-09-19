@@ -81,6 +81,8 @@ tilemap_obj_write:
     sta p_1
     
     lda tobj_y,x
+    cmp #$ff
+    beq tilemap_obj_write_end
     sta p_0
     
     clc
@@ -114,9 +116,93 @@ tilemap_obj_write:
     lda #$01
     sta ppu_queue_flag
     
+    tilemap_obj_write_end:
     rts
     
+    
+tilemap_obj_spawnall:
+    lda tobjlist_ptr
+    sta p_0
+    
+    lda tobjlist_ptr+1
+    sta p_1
+    
+    ldx #tobj_count
+    
+    -
+    ldy #$00
+    
+    lda (p_0),y     ;lo byte of tilemap object id
+    sta p_2
+    
+    iny
+    
+    lda (p_0),y     ;hi byte
+    sta p_3
+    
+    cmp #$ff        ;terminator. only care about hi byte
+    beq tobj_spawnall_end
+    
+    jsr tilemap_obj_spawn
+    
+    lda p_0
+    clc
+    adc #tobj_list_entry_length
+    sta p_0
+    
+    lda p_1
+    adc #$00
+    sta p_1
+    
+    dex
+    
+    bpl -
+    
+    tobj_spawnall_end:
+    rts
+    
+    
+tilemap_obj_spawn:
+    ;p_0 = tobj list ptr lo
+    ;p_1 = tobj list ptr hi
+    ;p_2 = object id lo
+    ;p_3 = object id hi
+    ;x = tilemap object index
+    
+    lda p_2
+    sta tobj_id_lo,x
+    
+    lda p_3
+    sta tobj_id_hi,x
+    
+    ldy #$02
+    lda (p_0),y
+    
+    sta tobj_x,x
+    
+    iny
+    
+    lda (p_0),y
+    sta tobj_y,x
+    
+    lda p_2
+    clc
+    adc #tobj_header_length
+    sta p_2
+    sta tobj_routine_lo,x
+    
+    lda p_3
+    adc #$00
+    sta p_3
+    sta tobj_routine_hi,x
+    
+    jmp (p_2)
+    
+    
 spawntestobj:
+    ;deprecated
+    
+    
     ;test harness =============
     
     ;x = obj index
@@ -130,28 +216,47 @@ spawntestobj:
     tya
     sta tobj_y,x
     
-    lda #testtobj+1
+    lda #water_obj+1
     sta tobj_id_hi,x
     sta p_0
     
-    lda #testtobj
+    lda #water_obj
     sta tobj_id_lo,x
     sta p_1
     
-    lda (p_0)
-    sta tobj_routine_hi,x
-    
-    lda (p_1)
+    lda p_0
     sta tobj_routine_lo,x
     
-    ;jsr tilemap_obj_write
-    ;jsr tilemap_obj_spawn
-    
-    ;==========================
+    lda p_1
+    sta tobj_routine_hi,x
     
     rts
     
-testtobj:
+    
+animated_tile_obj:
+    dw animated_tile_routine
+
+    animated_tile_routine:
+        lda nmicounter
+        bit inverse_bitmasks+2
+        bne +
+        sta p_0
+        lda #$81        ;rom src = $8100-81ff
+        sta p_1
+        
+        ldx #$01        ;x/y, ppu destination = 0090
+        ldy #$30
+        
+        lda #$02        ;size = 2 tiles
+        jsr setupgfxbuffer
+        
+        +
+        rts
+    
+    
+    
+water_obj:
+    ;if you add pointers here you need to modify the adc in spawn routine
     dw testtobj_routine
     
     testtobj_routine:
@@ -197,4 +302,4 @@ testtobj:
         rts
         
     testtobj_animationframes:
-        db $34, $35, $36, $37, $38, $39
+        db $31, $33, $34, $33, $34, $33

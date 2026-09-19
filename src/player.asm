@@ -265,6 +265,7 @@ player_bounds_check:
 
 player_collision:
     ;((player_y/16)*16 + (player_x/16)
+    
     lda player_y
     and #$f0
     sta p_0
@@ -280,8 +281,8 @@ player_collision:
     
     sta player_collisionindex
     
-    tax
-    lda collision,x
+    tay
+    lda (collision_map_ptr),y
     beq +
     
     sta player_collisiontype

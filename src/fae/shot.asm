@@ -22,6 +22,7 @@ shot_init:
     sta shot_x_speed
     
     lda player_y_speed
+    
     sta shot_y_speed
     
     lda #$01

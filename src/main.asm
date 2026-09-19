@@ -281,9 +281,6 @@ states:
    
     
 setup:
-    lda #$03
-    sta sceneindex
-    
     ;init player
     lda #$7c
     sta player_x
@@ -295,60 +292,20 @@ setup:
     sta bgxscroll
     sta bgyscroll
     
+    lda #scene_pipes
+    sta sceneindex
+    
     lda #state_loadscene
     sta programstate        ;return with next state
     
     rts
-
-
-setupgame:
-    ;do stuff
     
-    jsr tilemap_obj_clearall        ;clear tilemap objects
-    
-    ;spawn test objects
-    ldx #$10                        ;obj index
-    ldy #$13                        ;obj y
-    lda #$00                        ;obj x
-    jsr spawntestobj                
-                            
-    ldx #$0f                        ;obj index
-    ldy #$13                        ;obj y
-    lda #$08                        ;obj x
-    jsr spawntestobj                
-                            
-    ldx #$0e                        ;obj index
-    ldy #$13                        ;obj y
-    lda #$10                        ;obj x
-    jsr spawntestobj                
-                            
-    ldx #$0d                        ;obj index
-    ldy #$13                        ;obj y
-    lda #$18                        ;obj x
-    jsr spawntestobj
-    
-    jsr player_draw
-    
-    jsr tilemap_obj_handle          ;handle tilemap objects
-    
-    jsr fae_clearall
-    
-    ldx #<mirror_gem                ;id lo
-    ldy #>mirror_gem                ;id hi
-    jsr fae_spawn_findslot
-    
-    jsr fae_handleall
-    
-    ldx #fae_count
-    jsr fae_draw                    ;draw fae (first slot test)
-    
-    lda #state_gameplay
-    sta programstate                ;return with next state
-    
-    rts
-
     
 loadscene:
+    ;top level state which loads graphics, tilemap, palette to ppu
+    ;expects sceneindex to be set
+    ;proceeds to next state
+    
     ;used in routine:
     ;p_8 = backup of sceneindex*2
     
@@ -395,32 +352,92 @@ loadscene:
     
     ;
     
-    lda #%00011110
-    sta rendersettings      ;enable background and sprite rendering at next nmi
+    ldx p_8
+    
+    lda scene_collisionlist,x
+    sta collision_map_ptr
+    
+    lda scene_collisionlist+1,x
+    sta collision_map_ptr+1
+    
+    ;
+    
+    lda scene_faelist,x
+    sta faelist_ptr
+    
+    lda scene_faelist+1,x
+    sta faelist_ptr+1
+    
+    ;
+    
+    lda scene_tobjlist,x
+    sta tobjlist_ptr
+    
+    lda scene_tobjlist+1,x
+    sta tobjlist_ptr+1
+    
+    ;
     
     lda #state_setupgame
     sta programstate        ;proceed to next state
     
     rts
     
+    
+setupgame:
+    ;do stuff
+    
+    jsr tilemap_obj_clearall        ;clear tilemap objects
+    jsr tilemap_obj_spawnall
+    jsr tilemap_obj_handle          ;handle tilemap objects
+    
+    jsr player_draw
+    
+    jsr fae_clearall
+    
+    ldx #<mirror_gem                ;id lo
+    ldy #>mirror_gem                ;id hi
+    jsr fae_spawn_findslot
+    
+    jsr fae_handleall
+    
+    ldx #fae_count
+    jsr fae_draw                    ;draw fae (first slot test)
+    
+    lda #%00011110
+    sta rendersettings              ;enable background and sprite rendering at next nmi
+    
+    lda #state_gameplay
+    sta programstate                ;return with next state
+    
+    rts
+    
+    
 scene_gfxlist:
-    dw test_gfx     ;0
-    dw test_gfx     ;1
-    dw test_gfx     ;2
-    dw test_gfx     ;3
+    dw test_gfx         ;0
+    dw test_gfx         ;1
     
 scene_maplist:
-    dw test_map     ;0
-    dw hair_map     ;1
-    dw hedron_map   ;2
-    dw water_map    ;3
+    dw water_map        ;0
+    dw pipes_map        ;1
     
 scene_pallist:
-    dw test_pal     ;0
-    dw test_pal     ;1
-    dw test_pal     ;2
-    dw test_pal     ;3
+    dw test_pal         ;0
+    dw test_pal         ;1
 
+scene_collisionlist:
+    dw water_collision  ;0
+    dw pipes_collision  ;1
+    
+scene_faelist:
+    dw faelist_water    ;0
+    dw faelist_pipes    ;1
+    
+
+scene_tobjlist:
+    dw tobjlist_water   ;0
+    dw tobjlist_pipes   ;1
+    
 
 ;======================================= ppu routines ======================================
 

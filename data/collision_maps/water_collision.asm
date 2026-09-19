@@ -1,5 +1,3 @@
-collision:
-
 ;ideally is page-aligned to save cpu
 ;(indexing costs an additional cycle for page cross)
 

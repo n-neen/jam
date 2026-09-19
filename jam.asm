@@ -11,17 +11,18 @@ org $8000
         include "./src/fae/mirrorgem.asm"
         include "./src/fae/shot.asm"
     
-org $d000
     test_gfx:   incbin "./data/test.chr"        ;tiles
     test_pal:   incbin "./data/pal.pal"         ;palette
-    
-    test_map:   incbin "./data/test.map"        ;tilemap
-    hair_map:   incbin "./data/hair.map"        ;tilemap
-    hedron_map: incbin "./data/hedron.map"      ;tilemap
     water_map:  incbin "./data/water.map"       ;tilemap
+    pipes_map:  incbin "./data/pipes.map"       ;tilemap
+    
+    faelist:    include "./data/faelists.asm"
+    tobjlist:   include "./data/tobjlists.asm"
 
-org $fe00
-    include "./data/collision_map.asm"          ;full page for one screen
+org $f000
+    ;should be page-aligned for optimization
+    water_collision: include "./data/collision_maps/water_collision.asm"
+    pipes_collision: include "./data/collision_maps/pipes_collision.asm"
  
 org $fffa
     include "./src/vectors.asm"                 ;interrupt vectors

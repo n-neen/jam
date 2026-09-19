@@ -19,29 +19,6 @@ gameplay:
     jsr player_collision
     jsr player_draw
     
-    
-    ;=====================================test harness animated tile object
-    ;lda controller
-    ;bit button_A
-    ;beq +
-    
-    lda nmicounter
-    bit inverse_bitmasks+2
-    bne +
-    sta p_0
-    lda #$81        ;rom src = $8100-81ff
-    sta p_1
-    
-    ldx #$01        ;x/y, ppu destination = 0090
-    ldy #$30
-    
-    lda #$02        ;size = 2 tiles
-    jsr setupgfxbuffer
-    
-    +
-    
-    ;==================================================
-    
     jsr fae_handleall
     jsr fae_drawall
     
