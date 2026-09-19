@@ -5,15 +5,15 @@ player_draw:
     bit inverse_bitmasks+2
     bne ++
     
-    lda playeranimframe
+    lda player_animframe
     clc
     adc #$01
-    sta playeranimframe
+    sta player_animframe
     cmp #$09
     bne +
     
     lda #$00
-    sta playeranimframe
+    sta player_animframe
     
     +
     clc
@@ -22,14 +22,14 @@ player_draw:
     
     ++
     
-    lda playery
+    lda player_y
     sta oambuffer+0,x       ;y position
     
     
     lda #%00000000
     sta oambuffer+2,x       ;attributes
     
-    lda playerx
+    lda player_x
     sta oambuffer+3,x       ;x position
     
     inx
@@ -50,16 +50,16 @@ player_input:
         ;if left pressed:
         pha
         
-        lda playerxsubspeed
+        lda player_x_subspeed
         sec
         sbc #$40
-        sta playerxsubspeed
+        sta player_x_subspeed
         
-        lda playerxspeed
+        lda player_x_speed
         sbc #$00
         cmp #player_maxspeed_negative    ;cmp #-player_maxspeed
         bmi ++
-        sta playerxspeed
+        sta player_x_speed
         ++
         pla
     +
@@ -69,16 +69,16 @@ player_input:
         ;if right pressed:
         pha
         
-        lda playerxsubspeed
+        lda player_x_subspeed
         clc
         adc #$40
-        sta playerxsubspeed
+        sta player_x_subspeed
         
-        lda playerxspeed
+        lda player_x_speed
         adc #$00
         cmp #player_maxspeed
         bpl ++
-        sta playerxspeed
+        sta player_x_speed
         ++
         pla
     +
@@ -88,16 +88,16 @@ player_input:
         ;if down pressed:
         pha
         
-        lda playerysubspeed
+        lda player_y_subspeed
         clc
         adc #$40
-        sta playerysubspeed
+        sta player_y_subspeed
         
-        lda playeryspeed
+        lda player_y_speed
         adc #$00
         cmp #player_maxspeed
         bpl ++
-        sta playeryspeed
+        sta player_y_speed
         ++
         pla
     +
@@ -107,16 +107,16 @@ player_input:
         ;if up pressed:
         pha
         
-        lda playerysubspeed
+        lda player_y_subspeed
         sec
         sbc #$40
-        sta playerysubspeed
+        sta player_y_subspeed
         
-        lda playeryspeed
+        lda player_y_speed
         sbc #$00
         cmp #player_maxspeed_negative       ;cmp #-player_maxspeed
         bmi ++
-        sta playeryspeed
+        sta player_y_speed
         ++
         pla
     +
@@ -127,11 +127,11 @@ player_input:
         pha
         
         lda #$00
-        sta playerxspeed
-        sta playeryspeed
+        sta player_x_speed
+        sta player_y_speed
         
-        sta playerxsubspeed
-        sta playerysubspeed
+        sta player_x_subspeed
+        sta player_y_subspeed
         
         pla
     +
@@ -164,92 +164,92 @@ playerrandomizemovement:
     ;lda nmicounter
     ;bne +
     
-    lda playerx
-    eor playery
+    lda player_x
+    eor player_y
     sta p_1
     
-    lda playerxsubspeed
-    eor playerysubspeed
+    lda player_x_subspeed
+    eor player_y_subspeed
     eor p_1
     and #%00000010
     ora #$01
     sta p_0
     
     ;if nmicounter rolled over,
-    lda playerxspeed
+    lda player_x_speed
     eor p_0
-    sta playerxspeed
+    sta player_x_speed
     
-    lda playeryspeed
+    lda player_y_speed
     eor p_0
-    sta playeryspeed
+    sta player_y_speed
     
     +
     rts
     
 player_move:
     ;..y
-    lda playersuby
+    lda player_suby
     clc
-    adc playerysubspeed
-    sta playersuby
+    adc player_y_subspeed
+    sta player_suby
     
-    lda playery
-    adc playeryspeed
-    sta playery
+    lda player_y
+    adc player_y_speed
+    sta player_y
         
     ;..x
-    lda playersubx
+    lda player_subx
     clc
-    adc playerxsubspeed
-    sta playersubx
+    adc player_x_subspeed
+    sta player_subx
     
-    lda playerx
-    adc playerxspeed
-    sta playerx
+    lda player_x
+    adc player_x_speed
+    sta player_x
     
     rts
     
     
 player_bounds_check:       
-    lda playerx             ;left bound
+    lda player_x             ;left bound
     cmp #$04
     bcc +
-        lda playerxspeed
+        lda player_x_speed
         eor #$ff
         clc
         adc #$01
-        sta playerxspeed
+        sta player_x_speed
     +
     
-    lda playerx             ;right bound
+    lda player_x             ;right bound
     cmp #$e8
     bcs +
-        lda playerxspeed
+        lda player_x_speed
         eor #$ff
         clc
         adc #$01
-        sta playerxspeed
+        sta player_x_speed
     +
     
-    lda playery             ;top bound
+    lda player_y             ;top bound
     cmp #$04
     bcc +
-        lda playeryspeed
+        lda player_y_speed
         eor #$ff
         clc
         adc #$01
-        sta playeryspeed
+        sta player_y_speed
     +
     
-    lda playery             ;bottom bound
+    lda player_y             ;bottom bound
     cmp #$e0
     bcs +
-        lda playeryspeed
+        lda player_y_speed
         eor #$ff
         clc
         adc #$01
-        sta playeryspeed
+        sta player_y_speed
     +
     
     rts
@@ -264,12 +264,12 @@ player_bounds_check:
 
 
 player_collision:
-    ;((playery/16)*16 + (playerx/16)
-    lda playery
+    ;((player_y/16)*16 + (player_x/16)
+    lda player_y
     and #$f0
     sta p_0
     
-    lda playerx
+    lda player_x
     lsr
     lsr
     lsr
@@ -278,13 +278,13 @@ player_collision:
     clc
     adc p_0
     
-    sta playercollisionindex
+    sta player_collisionindex
     
     tax
     lda collision,x
     beq +
     
-    sta playercollisiontype
+    sta player_collisiontype
     
     and #$f0
     lsr
@@ -313,33 +313,33 @@ collisionfunctions:
     dw test     ;30
 
 test:
-    lda playerxsubspeed
+    lda player_x_subspeed
     sta p_0
     
-    lda playerysubspeed
-    eor playery
-    sta playerxsubspeed
+    lda player_y_subspeed
+    eor player_y
+    sta player_x_subspeed
     
     lda p_0
-    eor playerx
-    sta playerysubspeed
+    eor player_x
+    sta player_y_subspeed
     
     rts
 
 gem:
-    lda playerxspeed
+    lda player_x_speed
     sta p_0
     
-    lda playeryspeed
+    lda player_y_speed
     sta p_1
     
     lda p_0
     eor #$ff
-    sta playeryspeed
+    sta player_y_speed
     
     lda p_1
     eor #$ff
-    sta playerxspeed
+    sta player_x_speed
     
     rts
     
@@ -349,7 +349,7 @@ air:
     rts
     
 wall:
-    lda playercollisiontype
+    lda player_collisiontype
     and #$0f
     
     bit button_L
@@ -357,16 +357,16 @@ wall:
         ;if wall moves player to the left,
         pha
         
-        lda playerx
+        lda player_x
         sec
         sbc #$01
-        sta playerx
+        sta player_x
         
-        lda playerxspeed
+        lda player_x_speed
         eor #$ff
         clc
         adc #$01
-        sta playerxspeed
+        sta player_x_speed
         
         pla
     +
@@ -376,16 +376,16 @@ wall:
         ;if wall moves player to the right,
         pha
         
-        lda playerx
+        lda player_x
         clc
         adc #$01
-        sta playerx
+        sta player_x
         
-        lda playerxspeed
+        lda player_x_speed
         eor #$ff
         clc
         adc #$01
-        sta playerxspeed
+        sta player_x_speed
         
         pla
     +
@@ -395,16 +395,16 @@ wall:
         ;if wall moves player to the up,
         pha
         
-        lda playery
+        lda player_y
         sec
         sbc #$01
-        sta playery
+        sta player_y
         
-        lda playeryspeed
+        lda player_y_speed
         eor #$ff
         clc
         adc #$01
-        sta playeryspeed
+        sta player_y_speed
         
         pla
     +
@@ -414,16 +414,16 @@ wall:
         ;if wall moves player to the down,
         pha
         
-        lda playery
+        lda player_y
         clc
         adc #$01
-        sta playery
+        sta player_y
         
-        lda playeryspeed
+        lda player_y_speed
         eor #$ff
         clc
         adc #$01
-        sta playeryspeed
+        sta player_y_speed
         
         pla
     +

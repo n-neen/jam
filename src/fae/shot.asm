@@ -12,16 +12,16 @@ shot_init:
     lda shot_active
     bne +
     
-    lda playerx
+    lda player_x
     sta fae_x,x
     
-    lda playery
+    lda player_y
     sta fae_y,x
     
-    lda playerxspeed
+    lda player_x_speed
     sta shot_x_speed
     
-    lda playeryspeed
+    lda player_y_speed
     sta shot_y_speed
     
     lda #$01

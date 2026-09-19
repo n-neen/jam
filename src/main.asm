@@ -286,10 +286,10 @@ setup:
     
     ;init player
     lda #$7c
-    sta playerx
+    sta player_x
     
     lda #$80
-    sta playery
+    sta player_y
     
     lda #$00
     sta bgxscroll

@@ -41,22 +41,22 @@ ende
 enum $0040
     ;player variables
     
-    playerx                 dsb 1   ;$40
-    playersubx              dsb 1   ;$41
-    playery                 dsb 1   ;$42
-    playersuby              dsb 1   ;$43
+    player_x                dsb 1   ;$40
+    player_subx             dsb 1   ;$41
+    player_y                dsb 1   ;$42
+    player_suby             dsb 1   ;$43
     
-    playerxspeed            dsb 1   ;$44
-    playerxsubspeed         dsb 1   ;$45
-    playeryspeed            dsb 1   ;$46
-    playerysubspeed         dsb 1   ;$47
+    player_x_speed          dsb 1   ;$44
+    player_x_subspeed       dsb 1   ;$45
+    player_y_speed          dsb 1   ;$46
+    player_y_subspeed       dsb 1   ;$47
     
-    playeranimframe         dsb 1   ;$48
+    player_animframe        dsb 1   ;$48
     
-    playerdirection         dsb 1   ;$49 ;not used
+    player_direction        dsb 1   ;$49 ;not used
     
-    playercollisiontype     dsb 1   ;$4a
-    playercollisionindex    dsb 1   ;$4b
+    player_collisiontype    dsb 1   ;$4a
+    player_collisionindex   dsb 1   ;$4b
     
     shot_x_speed            dsb 1   ;$4c
     shot_x_subspeed         dsb 1   ;$4d
