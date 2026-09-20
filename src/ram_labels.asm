@@ -89,8 +89,8 @@ enum $0300
     tobj_id_hi          dsb 1*tobj_count+1
     tobj_id_lo          dsb 1*tobj_count+1
     
-    tobj_instptr_hi     dsb 1*tobj_count+1
-    tobj_instptr_lo     dsb 1*tobj_count+1
+    tobj_tile_hi     dsb 1*tobj_count+1
+    tobj_tile_lo     dsb 1*tobj_count+1
     
     tobj_routine_hi     dsb 1*tobj_count+1
     tobj_routine_lo     dsb 1*tobj_count+1
@@ -98,7 +98,6 @@ enum $0300
     tobj_x              dsb 1*tobj_count+1
     tobj_y              dsb 1*tobj_count+1
     tobj_timer          dsb 1*tobj_count+1
-    
     
     ppu_queue_flag          dsb 1
     ppu_queue_addr_hi       dsb 1*tobj_count+1

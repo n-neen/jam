@@ -306,12 +306,60 @@ player_collision:
 collisionfunctions:
     ;top nibble of collision byte indexes this
     ;bottom nibble can be passed as an argument
-    ;read from playercollisiontype to get bottom nibble if desired
+    ;read from player_collisiontype to get bottom nibble if desired
     
-    dw air      ;00
-    dw wall     ;10
-    dw gem      ;20
-    dw test     ;30
+    dw air      ;$00
+    dw wall     ;$10
+    dw gem      ;$20
+    dw test     ;$30
+    dw door     ;$40
+
+
+door:
+    ;write a door list or something
+    ;room transition probably has enough extant stuff
+    
+    ;look up door list, get scene index
+    
+    ;change scene index
+    ;change state to loadscene
+    
+    lda player_collisiontype    ;door index
+    and #$0f
+    asl
+    asl
+    tay                         ;doorindex << 2 (*4), door entries are 4 bytes
+    
+    lda sceneindex
+    tax
+    lda doorlist_lo,x           ;door ptr lo byte
+    sta p_0
+    
+    lda doorlist_hi,x           ;door ptr hi byte
+    sta p_1
+    
+    lda (p_0),y
+    sta sceneindex
+    iny
+    
+    lda (p_0),y
+    sta player_x
+    iny
+    
+    lda (p_0),y
+    sta player_y
+    iny
+    
+    lda (p_0),y
+    ;do somethin with that i guess
+    
+    lda #$00
+    sta rendersettings
+    
+    lda #state_loadscene
+    sta programstate
+    
+    rts
 
 test:
     lda player_x_subspeed

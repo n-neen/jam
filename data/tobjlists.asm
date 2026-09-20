@@ -33,3 +33,11 @@ tobjlist_pipes:
     
     dw $ffff
     
+    
+tobjlist_hair:
+    dw animated_tile_obj
+    db $ff              
+    db $ff              ;y = $ff is flag to not draw
+    
+    dw $ffff
+    

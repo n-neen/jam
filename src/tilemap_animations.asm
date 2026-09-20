@@ -12,8 +12,8 @@ tilemap_obj_clear:
     sta tobj_id_lo,x
     sta tobj_x,x
     sta tobj_y,x
-    sta tobj_instptr_hi,x
-    sta tobj_instptr_lo,x
+    sta tobj_tile_hi,x
+    sta tobj_tile_lo,x
     sta tobj_timer,x
     
     rts
@@ -110,7 +110,7 @@ tilemap_obj_write:
     lda p_0
     sta ppu_queue_addr_lo,x     ;ppu addr lo byte = lo nibble of tilemap index
     
-    lda tobj_instptr_lo,x       ;byte to write
+    lda tobj_tile_lo,x       ;byte to write
     sta ppu_queue_byte,x
     
     lda #$01
@@ -122,22 +122,22 @@ tilemap_obj_write:
     
 tilemap_obj_spawnall:
     lda tobjlist_ptr
-    sta p_0
+    sta p_7
     
     lda tobjlist_ptr+1
-    sta p_1
+    sta p_8
     
     ldx #tobj_count
     
     -
     ldy #$00
     
-    lda (p_0),y     ;lo byte of tilemap object id
+    lda (p_7),y     ;lo byte of tilemap object id
     sta p_2
     
     iny
     
-    lda (p_0),y     ;hi byte
+    lda (p_7),y     ;hi byte
     sta p_3
     
     cmp #$ff        ;terminator. only care about hi byte
@@ -145,10 +145,10 @@ tilemap_obj_spawnall:
     
     jsr tilemap_obj_spawn
     
-    lda p_0
+    lda p_7
     clc
     adc #tobj_list_entry_length
-    sta p_0
+    sta p_7
     
     lda p_1
     adc #$00
@@ -163,8 +163,8 @@ tilemap_obj_spawnall:
     
     
 tilemap_obj_spawn:
-    ;p_0 = tobj list ptr lo
-    ;p_1 = tobj list ptr hi
+    ;p_7 = tobj list ptr lo
+    ;p_8 = tobj list ptr hi
     ;p_2 = object id lo
     ;p_3 = object id hi
     ;x = tilemap object index
@@ -176,13 +176,13 @@ tilemap_obj_spawn:
     sta tobj_id_hi,x
     
     ldy #$02
-    lda (p_0),y
+    lda (p_7),y
     
     sta tobj_x,x
     
     iny
     
-    lda (p_0),y
+    lda (p_7),y
     sta tobj_y,x
     
     lda p_2
@@ -237,6 +237,9 @@ animated_tile_obj:
     dw animated_tile_routine
 
     animated_tile_routine:
+        txa
+        pha
+        
         lda nmicounter
         bit inverse_bitmasks+2
         bne +
@@ -251,6 +254,9 @@ animated_tile_obj:
         jsr setupgfxbuffer
         
         +
+        
+        pla
+        tax
         rts
     
     
@@ -282,7 +288,7 @@ water_obj:
         tay
         
         lda testtobj_animationframes,y
-        sta tobj_instptr_lo,x
+        sta tobj_tile_lo,x
         
         lda tobj_x,x
         clc

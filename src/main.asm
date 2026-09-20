@@ -350,7 +350,7 @@ loadscene:
     
     jsr uploadpalette
     
-    ;
+    ;get collision map pointer
     
     ldx p_8
     
@@ -360,7 +360,7 @@ loadscene:
     lda scene_collisionlist+1,x
     sta collision_map_ptr+1
     
-    ;
+    ;fae list (unimplemented)
     
     lda scene_faelist,x
     sta faelist_ptr
@@ -368,7 +368,7 @@ loadscene:
     lda scene_faelist+1,x
     sta faelist_ptr+1
     
-    ;
+    ;tile object list (implemented)
     
     lda scene_tobjlist,x
     sta tobjlist_ptr
@@ -386,6 +386,9 @@ loadscene:
     
 setupgame:
     ;do stuff
+    
+    lda #$00
+    sta oamindex
     
     jsr tilemap_obj_clearall        ;clear tilemap objects
     jsr tilemap_obj_spawnall
@@ -416,27 +419,32 @@ setupgame:
 scene_gfxlist:
     dw test_gfx         ;0
     dw test_gfx         ;1
+    dw test_gfx         ;2
     
 scene_maplist:
     dw water_map        ;0
     dw pipes_map        ;1
+    dw hair_map         ;2
     
 scene_pallist:
     dw test_pal         ;0
     dw test_pal         ;1
+    dw test_pal         ;2
 
 scene_collisionlist:
     dw water_collision  ;0
     dw pipes_collision  ;1
+    dw hair_collision   ;2
     
-scene_faelist:
+scene_faelist:          ;(unimplemented)
     dw faelist_water    ;0
     dw faelist_pipes    ;1
+    dw faelist_hair     ;2
     
-
 scene_tobjlist:
     dw tobjlist_water   ;0
     dw tobjlist_pipes   ;1
+    dw tobjlist_hair    ;2
     
 
 ;======================================= ppu routines ======================================

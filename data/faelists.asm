@@ -15,3 +15,7 @@ faelist_water:
 faelist_pipes:
     dw $ffff
     
+    
+faelist_hair:
+    dw $ffff
+    
