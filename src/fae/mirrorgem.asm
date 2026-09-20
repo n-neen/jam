@@ -40,11 +40,9 @@ mirror_gem_routine:
     sta fae_x,x
     
     lda player_y
-    clc
-    adc #$10
     eor #$ff
     clc
-    adc #$01
+    adc #$e8
     sta fae_y,x
     
     rts

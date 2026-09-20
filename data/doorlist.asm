@@ -4,11 +4,15 @@ doorlist_hi:
     db >doorlist_water
     db >doorlist_pipes
     db >doorlist_hair
+    db >doorlist_pee
+    
 
 doorlist_lo:
     db <doorlist_water
     db <doorlist_pipes
     db <doorlist_hair
+    db <doorlist_pee
+    
 
 
 ;scene to transition to
@@ -42,6 +46,13 @@ doorlist_pipes:
     
 doorlist_hair:
     db scene_water
+    db $80          ;player x
+    db $a0          ;player y
+    db $00          ;reserved byte
+    
+    
+doorlist_pee:
+    db scene_pipes
     db $80          ;player x
     db $a0          ;player y
     db $00          ;reserved byte

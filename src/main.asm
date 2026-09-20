@@ -282,17 +282,17 @@ states:
     
 setup:
     ;init player
-    lda #$7c
+    lda #$d8
     sta player_x
     
-    lda #$80
+    lda #$10
     sta player_y
     
     lda #$00
     sta bgxscroll
     sta bgyscroll
     
-    lda #scene_pipes
+    lda #scene_pee
     sta sceneindex
     
     lda #state_loadscene
@@ -420,31 +420,37 @@ scene_gfxlist:
     dw test_gfx         ;0
     dw test_gfx         ;1
     dw test_gfx         ;2
+    dw test_gfx         ;3
     
 scene_maplist:
     dw water_map        ;0
     dw pipes_map        ;1
     dw hair_map         ;2
+    dw pee_map          ;3
     
 scene_pallist:
     dw test_pal         ;0
     dw test_pal         ;1
     dw test_pal         ;2
+    dw test_pal         ;3
 
 scene_collisionlist:
     dw water_collision  ;0
     dw pipes_collision  ;1
     dw hair_collision   ;2
+    dw pee_collision    ;3
     
 scene_faelist:          ;(unimplemented)
     dw faelist_water    ;0
     dw faelist_pipes    ;1
     dw faelist_hair     ;2
+    dw faelist_pee      ;3
     
 scene_tobjlist:
     dw tobjlist_water   ;0
     dw tobjlist_pipes   ;1
     dw tobjlist_hair    ;2
+    dw tobjlist_pee     ;3
     
 
 ;======================================= ppu routines ======================================

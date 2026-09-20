@@ -20,7 +20,11 @@ org $8000
     water_map:  incbin "./data/water.map"       ;tilemap
     pipes_map:  incbin "./data/pipes.map"       ;tilemap
     hair_map:   incbin "./data/hair.map"        ;tilemap
+    pee_map:    incbin "./data/pee.map"         ;tilemap
     
+    animatedgfx:
+    db $00  ;why?!
+    incbin "./data/gfx_animation.chr"
 
 
 org $f000
@@ -28,6 +32,7 @@ org $f000
     water_collision: include "./data/collision_maps/water_collision.asm"
     pipes_collision: include "./data/collision_maps/pipes_collision.asm"
     hair_collision:  include "./data/collision_maps/hair_collision.asm"
+    pee_collision:   include "./data/collision_maps/pee_collision.asm"
  
 org $fffa
     include "./src/vectors.asm"                 ;interrupt vectors

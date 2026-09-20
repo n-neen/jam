@@ -17,5 +17,6 @@
     scene_water     equ 0
     scene_pipes     equ 1
     scene_hair      equ 2
+    scene_pee       equ 3
 
 .endinl

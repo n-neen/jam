@@ -233,10 +233,13 @@ spawntestobj:
     rts
     
     
-animated_tile_obj:
-    dw animated_tile_routine
+animated_tile_door:
+    dw animated_tile_door_routine
 
-    animated_tile_routine:
+    animated_tile_door_routine:
+        lda gfxbuffer_size
+        bne animated_tile_door_routine_end
+        
         txa
         pha
         
@@ -257,8 +260,61 @@ animated_tile_obj:
         
         pla
         tax
+        
+        animated_tile_door_routine_end:
         rts
     
+animated_tile_square:
+    dw animated_tile_square_routine
+    
+    animated_tile_square_routine:
+        lda gfxbuffer_size
+        bne animated_tile_square_routine_end
+        
+        lda nmicounter
+        bit inverse_bitmasks+1
+        bne animated_tile_square_routine_end
+        
+        txa
+        pha
+        
+        lda tobj_timer,x
+        clc
+        adc #$01
+        sta tobj_timer,x
+        
+        cmp #$04
+        bne +
+        
+        lda #$00
+        sta tobj_timer,x
+        
+        +
+        
+        asl
+        asl
+        asl
+        asl
+        
+        clc
+        adc #<animatedgfx       ;make sure this doesn't cross a page
+        sta p_0
+        
+        lda #>animatedgfx
+        adc #$00                ;or just do this i guess
+        sta p_1
+        
+        ldx #$00                ;x/y = ppu destination = $0090
+        ldy #$40
+        
+        lda #$01                ;size = 1 tiles
+        jsr setupgfxbuffer
+        
+        pla
+        tax
+        
+        animated_tile_square_routine_end:
+        rts
     
     
 water_obj:

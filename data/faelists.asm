@@ -19,3 +19,7 @@ faelist_pipes:
 faelist_hair:
     dw $ffff
     
+    
+faelist_pee:
+    dw $ffff
+    

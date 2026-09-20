@@ -19,7 +19,7 @@ tobjlist_water:
     db $18
     db $13
     
-    dw animated_tile_obj
+    dw animated_tile_door
     db $ff
     db $ff
     
@@ -27,7 +27,7 @@ tobjlist_water:
     
     
 tobjlist_pipes:
-    dw animated_tile_obj
+    dw animated_tile_door
     db $ff              
     db $ff              ;y = $ff is flag to not draw
     
@@ -35,9 +35,20 @@ tobjlist_pipes:
     
     
 tobjlist_hair:
-    dw animated_tile_obj
+    dw animated_tile_door
     db $ff              
     db $ff              ;y = $ff is flag to not draw
     
     dw $ffff
     
+    
+tobjlist_pee:
+    dw animated_tile_door
+    db $ff              
+    db $ff              ;y = $ff is flag to not draw
+    
+    dw animated_tile_square
+    db $ff              
+    db $ff              ;y = $ff is flag to not draw
+    
+    dw $ffff
