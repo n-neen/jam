@@ -276,23 +276,39 @@ states:
     dw loadscene            ;1 - load graphics, tilemap, palettes
     dw setupgame            ;2 - set up for gampleay; init player etc
     dw gameplay             ;3 - play the game
+    dw setup_endgame        ;4 - load gfx for ending card
+    dw endgame              ;5 - display and handle interactions for ending card
 
 ; ==================================== top-level states ====================================
-   
+
+setup_endgame:
+    ;todo
+    
+    lda #state_endgame
+    sta programstate
+    
+    rts
+    
+    
+endgame:
+    ;do something, presumably
+    
+    rts
+    
     
 setup:
     ;init player
-    lda #$d8
+    lda #$7d
     sta player_x
     
-    lda #$10
+    lda #$b0
     sta player_y
     
     lda #$00
     sta bgxscroll
     sta bgyscroll
     
-    lda #scene_pee
+    lda #scene_checkers
     sta sceneindex
     
     lda #state_loadscene
@@ -421,36 +437,42 @@ scene_gfxlist:
     dw test_gfx         ;1
     dw test_gfx         ;2
     dw test_gfx         ;3
+    dw test_gfx         ;4
     
 scene_maplist:
     dw water_map        ;0
     dw pipes_map        ;1
     dw hair_map         ;2
     dw pee_map          ;3
+    dw checkers_map     ;4
     
 scene_pallist:
     dw test_pal         ;0
     dw test_pal         ;1
     dw test_pal         ;2
     dw test_pal         ;3
+    dw test_pal         ;4
 
 scene_collisionlist:
-    dw water_collision  ;0
-    dw pipes_collision  ;1
-    dw hair_collision   ;2
-    dw pee_collision    ;3
+    dw water_collision      ;0
+    dw pipes_collision      ;1
+    dw hair_collision       ;2
+    dw pee_collision        ;3
+    dw checkers_collision   ;4
     
 scene_faelist:          ;(unimplemented)
     dw faelist_water    ;0
     dw faelist_pipes    ;1
     dw faelist_hair     ;2
     dw faelist_pee      ;3
+    dw faelist_checkers ;4
     
 scene_tobjlist:
     dw tobjlist_water   ;0
     dw tobjlist_pipes   ;1
     dw tobjlist_hair    ;2
     dw tobjlist_pee     ;3
+    dw tobjlist_pee     ;4
     
 
 ;======================================= ppu routines ======================================

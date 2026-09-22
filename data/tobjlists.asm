@@ -52,3 +52,15 @@ tobjlist_pee:
     db $ff              ;y = $ff is flag to not draw
     
     dw $ffff
+    
+    
+tobjlist_checkers:
+    dw animated_tile_door
+    db $ff              
+    db $ff              ;y = $ff is flag to not draw
+    
+    dw animated_tile_square
+    db $ff              
+    db $ff              ;y = $ff is flag to not draw
+    
+    dw $ffff

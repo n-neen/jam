@@ -36,7 +36,7 @@ mirror_gem_routine:
     lda player_x
     eor #$ff
     clc
-    adc #$f8
+    adc #$fa
     sta fae_x,x
     
     lda player_y

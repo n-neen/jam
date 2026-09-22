@@ -5,6 +5,7 @@ doorlist_hi:
     db >doorlist_pipes
     db >doorlist_hair
     db >doorlist_pee
+    db >doorlist_checkers
     
 
 doorlist_lo:
@@ -12,6 +13,7 @@ doorlist_lo:
     db <doorlist_pipes
     db <doorlist_hair
     db <doorlist_pee
+    db <doorlist_checkers
     
 
 
@@ -26,10 +28,10 @@ doorlist_water:
     db $80          ;player y
     db $00          ;reserved byte
     
-    db scene_pipes  ;scene to transition to
+    db scene_water  ;scene to transition to
     db $80          ;player x
     db $80          ;player y
-    db $00          ;reserved byte
+    db door_command_endgame
     
     
 doorlist_pipes:
@@ -55,4 +57,21 @@ doorlist_pee:
     db scene_pipes
     db $80          ;player x
     db $a0          ;player y
+    db $00          ;reserved byte
+    
+    
+doorlist_checkers:
+    db scene_pee
+    db $a0          ;player x
+    db $a0          ;player y
+    db $00          ;reserved byte
+    
+    db scene_pipes
+    db $d8          ;player x
+    db $d8          ;player y
+    db $00          ;reserved byte
+    
+    db scene_pipes
+    db $00          ;player x
+    db $00          ;player y
     db $00          ;reserved byte

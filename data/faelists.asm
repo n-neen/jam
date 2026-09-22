@@ -23,3 +23,7 @@ faelist_hair:
 faelist_pee:
     dw $ffff
     
+    
+faelist_checkers:
+    dw $ffff
+    

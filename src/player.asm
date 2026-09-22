@@ -351,14 +351,58 @@ door:
     iny
     
     lda (p_0),y
-    ;do somethin with that i guess
+    beq +
+    
+    jsr rundoorcommand
+    bcs door_statereturn
+    
+    +
+    
+    lda #state_loadscene
+    
+    door_statereturn:
+    sta programstate
     
     lda #$00
     sta rendersettings
     
-    lda #state_loadscene
-    sta programstate
+    rts
     
+    
+rundoorcommand:
+    ;A = door command index (0 is not valid)
+    ;door commands set or clear carry. if carry is set,
+    ;then return with new state in A to transition to next frame
+    
+    tax
+    
+    lda doorcommands_hi,x
+    sta p_5
+    
+    lda doorcommands_lo,x
+    sta p_4
+    
+    jmp (p_4)
+    
+    
+doorcommands_hi:
+    db $00
+    db >doorcommand_endgame
+
+
+doorcommands_lo:
+    db $00
+    db <doorcommand_endgame
+
+
+doorcommand_endgame:
+    ;this was kind of a waste of a system just to do this
+    ;i guess it's good system-writing practice. maybe could do something
+    ;else with it at some point?
+    
+    lda #state_setup_endgame
+    
+    sec
     rts
 
 test:

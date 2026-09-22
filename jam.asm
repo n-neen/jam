@@ -15,12 +15,13 @@ org $8000
     tobjlist:   include "./data/tobjlists.asm"
     include "./data/doorlist.asm"
     
-    test_gfx:   incbin "./data/test.chr"        ;tiles
-    test_pal:   incbin "./data/pal.pal"         ;palette
-    water_map:  incbin "./data/water.map"       ;tilemap
-    pipes_map:  incbin "./data/pipes.map"       ;tilemap
-    hair_map:   incbin "./data/hair.map"        ;tilemap
-    pee_map:    incbin "./data/pee.map"         ;tilemap
+    test_gfx:       incbin "./data/test.chr"        ;tiles
+    test_pal:       incbin "./data/pal.pal"         ;palette
+    water_map:      incbin "./data/water.map"       ;tilemap
+    pipes_map:      incbin "./data/pipes.map"       ;tilemap
+    hair_map:       incbin "./data/hair.map"        ;tilemap
+    pee_map:        incbin "./data/pee.map"         ;tilemap
+    checkers_map:   incbin "./data/checkers.map"    ;tilemap
     
     animatedgfx:
     db $00  ;why?!
@@ -29,10 +30,11 @@ org $8000
 
 org $f000
     ;should be page-aligned for optimization
-    water_collision: include "./data/collision_maps/water_collision.asm"
-    pipes_collision: include "./data/collision_maps/pipes_collision.asm"
-    hair_collision:  include "./data/collision_maps/hair_collision.asm"
-    pee_collision:   include "./data/collision_maps/pee_collision.asm"
+    water_collision:    include "./data/collision_maps/water_collision.asm"
+    pipes_collision:    include "./data/collision_maps/pipes_collision.asm"
+    hair_collision:     include "./data/collision_maps/hair_collision.asm"
+    pee_collision:      include "./data/collision_maps/pee_collision.asm"
+    checkers_collision: include "./data/collision_maps/checkers_collision.asm"
  
 org $fffa
     include "./src/vectors.asm"                 ;interrupt vectors

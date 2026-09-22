@@ -1,9 +1,11 @@
 .ignorenl
 
-    state_setup     equ 0
-    state_loadscene equ 1
-    state_setupgame equ 2
-    state_gameplay  equ 3
+    state_setup         equ 0
+    state_loadscene     equ 1
+    state_setupgame     equ 2
+    state_gameplay      equ 3
+    state_setup_endgame equ 4
+    state_endgame       equ 5
 
     player_maxspeed             equ 2
     player_maxspeed_negative    equ -2
@@ -18,5 +20,8 @@
     scene_pipes     equ 1
     scene_hair      equ 2
     scene_pee       equ 3
+    scene_checkers  equ 4
+    
+    door_command_endgame    equ 1
 
 .endinl
